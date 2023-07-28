@@ -53,6 +53,20 @@ public class Testing_Behaviour_Vs_Addresses
         }
     }
     [Fact]
+    public void Test_Hash_Codes_Of_Two_Instances_Of_Same_Object_Are_Not_Equal()
+    {
+        object house1 = new object();
+        object house2 = new object();
+        int house1HashCode = house1.GetHashCode();
+        int house2HashCode = house2.GetHashCode();
+        var hashCode1 = house1HashCode;
+        var hashCode2 = house2HashCode;
+        output.WriteLine($"House object's hash code: {hashCode1}");
+        output.WriteLine($"House object's hash code: {hashCode2}");
+        Assert.NotEqual(hashCode1, hashCode2);
+
+    }
+    [Fact]
     public void Test_Two_Instances_Of_Same_Object_Are_Not_Equal()
     {
 
@@ -81,6 +95,21 @@ public class Testing_Behaviour_Vs_Addresses
             output.WriteLine($"House object's address: {refAddress}");
             Assert.NotEqual(address, refAddress);
         }
+    }
+    [Fact]
+    public void Test_Hash_Codes_Of_Instance_And_Reference_To_Instance_Are_Equal()
+    {
+
+        object house = new object();
+        object houseReference = house;
+        int houseAddressPointer = house.GetHashCode();
+        int houseReferenceAddressPointer = houseReference.GetHashCode();
+        var hashCode = (int)houseAddressPointer;
+        var refHashCode = (int)houseReferenceAddressPointer;
+        output.WriteLine($"House object's hash code : {hashCode}");
+        output.WriteLine($"House object's hash code: {refHashCode}");
+        Assert.Equal(hashCode, refHashCode);
+
     }
     [Fact]
     public void Test_Instance_And_Reference_To_Instance_Are_Equal()
@@ -113,6 +142,24 @@ public class Testing_Behaviour_Vs_Addresses
         }
     }
     [Fact]
+    public void Test_House_Instance_numberOfRooms_Hash_Code_Equals_House_Instance_Reference_numberOfRooms_Hash_Code()
+    {
+
+        House house = new House(5);
+        House houseReference = house;
+        int houseRooms = house.numberOfRooms;
+        var houseReferenceRooms = houseReference.numberOfRooms;
+
+        int houseRoomsHashCode = houseRooms.GetHashCode();
+        int houseReferenceRoomsHashcode = houseReferenceRooms.GetHashCode();
+        var roomHashCode = (int)houseRoomsHashCode;
+        var refRoomHashCode = (int)houseReferenceRoomsHashcode;
+        output.WriteLine($"House object's room hash code: {roomHashCode}");
+        output.WriteLine($"House object reference's hash code: {refRoomHashCode}");
+        Assert.Equal(roomHashCode, refRoomHashCode);
+
+    }
+    [Fact]
     public void Test_House_numberOfRooms_Equals_House_Instance_numberOfRooms()
     {
 
@@ -143,6 +190,26 @@ public class Testing_Behaviour_Vs_Addresses
             output.WriteLine($"House A myRoom object's address: {houseARoomAddress}");
             output.WriteLine($"House B myRoom object's address: {houseBRoomAddress}");
             Assert.NotEqual(houseARoomAddress, houseBRoomAddress);
+        }
+    }
+    [Fact]
+    public void Test_Two_Instances_Of_House_With_Same_Instance_Of_Room_Have_Same_Room_Hash_Code()
+    {
+        unsafe
+        {
+            Room myRoom = new Room("Dave"); // only one instance of my room!
+            House houseA = new House(5, myRoom);
+            House houseB = new House(3, myRoom);
+            Room houseARoom = houseA.room;
+            Room houseBRoom = houseB.room;
+
+            int houseAroomAddressPointer = houseARoom.GetHashCode();
+            int houseBroomAddressPointer = houseBRoom.GetHashCode();
+            var houseARoomHashCode = (int)houseAroomAddressPointer;
+            var houseBHashCode = (int)houseBroomAddressPointer;
+            output.WriteLine($"House A myRoom object's Hash Code: {houseARoomHashCode}");
+            output.WriteLine($"House B myRoom object's Hash Code: {houseBHashCode}");
+            Assert.Equal(houseARoomHashCode, houseBHashCode);
         }
     }
     [Fact]
